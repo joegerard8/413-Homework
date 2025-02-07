@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "Joe CBB Services";
+}
+
+<div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 pt-1" style="height: 100vh; margin-top: 0; padding-top: 0;">
+    <p style="width: 33%; text-align: center; padding: 10px; box-sizing: border-box; margin-bottom: 20px;">
+        I offer college basketball services. Whether you want to learn about Gonzaga Basketball lore, get help filling out a winning bracket,
+        or need some picks for a fire college basketball saturday slate, I'm your guy. Use the service calculator below to find out how much I'll charge you
+        for my services.
+    </p>
+    <div style="border: 2px solid black; padding: 10px; display: inline-block; text-align: center;">
+        <h1>Services Calculator</h1>
+        <br />
+        <label for="hours">Hours needed:</label>
+        <input type="number" min="1" max="24" id="hours" />
+        <br />
+        <br />
+        <p style="border: 2px solid black; padding: 10px; display: inline-block;">Hourly Rate: $50</p>
+        <br />
+        <br />
+        <button id="calculate">Calculate</button>
+        <br />
+        <br />
+        <p id="totalCost" style="display: none;">Total Cost: </p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="/js/serviceCalculator.js"></script>
+
+
+
+
+
