@@ -2,31 +2,32 @@
     ViewData["Title"] = "Add Movies";
 }
 @model Mission6.Models.Movie
-<!--Form that links to the Movie Object, creates Movie objects on form submit and uploads them to the database.-->
+<!--Form that links to the Movie Object, creates Movie objects on form submit and uploads them to the database. -->
 <h1 class="text-center">Add new movies!</h1>
 
 <div class="d-flex justify-content-center align-items-center">
     <form method="post" class="d-flex flex-column justify-content-between w-50 text-start gap-3">
+        <!--category-->
         <div class="d-flex flex-column">
             <label asp-for="Category">Movie Category</label>
             <input type="text" asp-for="Category" required />
         </div>
-
+        <!--title-->
         <div class="d-flex flex-column">
             <label asp-for="Title">Title</label>
             <input type="text" asp-for="Title" required />
         </div>
-
+        <!-- year-->
         <div class="d-flex flex-column">
             <label asp-for="Year">Year</label>
             <input type="number" asp-for="Year" min="1900" max="2025" required />
         </div>
-
+        <!--directory-->
         <div class="d-flex flex-column">
             <label asp-for="Director">Director</label>
             <input type="text" asp-for="Director" required />
         </div>
-
+        <!--rating-->
         <div class="d-flex flex-column">
             <label asp-for="Rating">Rating</label>
             <select asp-for="Rating" required>
@@ -36,7 +37,7 @@
                 <option>R</option>
             </select>
         </div>
-
+        <!--edited-->
         <div class="d-flex flex-column">
             <label asp-for="Edited">Edited</label>
             <select asp-for="Edited">
@@ -44,16 +45,17 @@
                 <option value="false">No</option>
             </select>
         </div>
-
+        <!--Lent to-->
         <div class="d-flex flex-column">
             <label asp-for="Lent">Lent to</label>
             <input type="text" asp-for="Lent" />
         </div>
-
+        <!--notes-->
         <div class="d-flex flex-column">
             <label asp-for="Notes">Notes</label>
             <input type="text" asp-for="Notes" maxlength="25" />
         </div>
+        <!--submit button-->
         <button type="submit" class="btn btn-primary">Add Movie</button>
     </form>
 </div>

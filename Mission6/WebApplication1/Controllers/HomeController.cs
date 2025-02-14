@@ -16,21 +16,22 @@ namespace WebApplication1.Controllers
             _logger = logger;
         }
 
+        // returns the index view
         public IActionResult Index()
         {
             return View();
         }
-
+        //returns the about page
         public IActionResult About()
         {
             return View();
         }
-
+        //returns the add new movie page
         public IActionResult Add()
         {
             return View();
         }
-
+        //returns the confirmation page, which takes a Movie object as a parameter
         public IActionResult Confirmation(Movie movie)
         {
             return View(movie);
@@ -48,6 +49,7 @@ namespace WebApplication1.Controllers
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        // returns the error view
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
