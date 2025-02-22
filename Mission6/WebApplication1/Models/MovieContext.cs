@@ -9,7 +9,16 @@ namespace Mission6.Models
         {
         }
 
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Movie> Movies { get; set; } //Movies table
+        public DbSet<Category> Categories { get; set; } // cateogires table
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        {
+            modelBuilder.Entity<Movie>() //creaing the relationsihp between the categories and movies tables
+                .HasOne(m => m.Category)
+                .WithMany(c => c.Movies)
+                .HasForeignKey(m => m.CategoryId);
+        }
 
     }
 }

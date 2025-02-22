@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Delete";
+}
+
+@model Mission6.Models.Movie
+
+<!--Delete confirmation page, allows the user to choose to continue with deleting the record or return back to the movie collection page-->
+<div class="d-flex justify-content-center align-items-center">
+    <div class="p-4 bg-light rounded shadow text-center" style="width: 40%;">
+
+        <h2>Are you sure you want to remove the movie @Model.Title?</h2>
+        <form method="post">
+            <input type="hidden" asp-for="MovieId" />
+            <button class="btn btn-danger me-2" type="submit">Delete</button>
+            <button class="btn btn-secondary" type="submit" asp-controller="Home" asp-action="MovieCollection">Cancel</button>
+        </form>
+    </div>
+</div>
