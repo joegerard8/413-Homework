@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Joel's Collection";
+}
+
+@model List<Mission6.Models.Movie> //what type of information am I looking at?? in this case, it is a list of movie objects
+
+<h1 class="p-4">Movie Collection</h1>
+
+<!--Table with bootstrap classes for styling-->
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>Title</th>
+        <th>Category</th>
+        <th>Year</th>
+        <th>Director</th>
+        <th>Rating</th>
+        <th>Edited</th>
+        <th>Lent To</th>
+        <th>Copied to Plex</th>
+        <th>Notes</th>
+        <th>Actions</th>
+    </tr>
+
+    <!--For loop to create a new row for each movie in the data base, populates all of the fields with the values from the database.-->
+    @foreach (var movie in Model)
+    {
+        <tbody>
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Category?.CategoryName</td>
+                <td>@movie.Year</td>
+                <td>@movie.Director</td>
+                <td>@movie.Rating</td>
+                <td>@movie.Edited</td>
+                <td>@movie.LentTo</td>
+                <td>@movie.CopiedToPlex</td>
+                <td>@movie.Notes</td>
+                <td class="d-flex flex-row p-3"><a class="btn btn-info" asp-controller="Home" asp-action="Edit" asp-route-id="@movie.MovieId">Edit</a><a class="btn btn-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@movie.MovieId">Delete</a></td>
+            </tr>
+
+        </tbody>
+    }
+
+</table>

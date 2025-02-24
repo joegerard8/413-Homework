@@ -1,16 +1,26 @@
 ﻿@{
-    ViewData["Title"] = "Add Movies";
+    ViewData["Title"] = "Submit Movies";
 }
 @model Mission6.Models.Movie
+
 <!--Form that links to the Movie Object, creates Movie objects on form submit and uploads them to the database. -->
-<h1 class="text-center">Add new movies!</h1>
+<h1 class="text-center">Movie Submission!</h1>
 
 <div class="d-flex justify-content-center align-items-center">
     <form method="post" class="d-flex flex-column justify-content-between w-50 text-start gap-3">
+        <!--Id to identify records for editing-->
+        <input type="hidden" asp-for="MovieId" />
+
         <!--category-->
         <div class="d-flex flex-column">
-            <label asp-for="Category">Movie Category</label>
-            <input type="text" asp-for="Category" required />
+            <label asp-for="CategoryId">Movie Category</label>
+            <select asp-for="CategoryId" required>
+                <option value="">Select a Value:</option>
+                @foreach (var c in ViewBag.Categories) 
+                {
+                    <option value="@c.CategoryId">@c.CategoryName</option>
+                }
+            </select>
         </div>
         <!--title-->
         <div class="d-flex flex-column">
@@ -20,7 +30,7 @@
         <!-- year-->
         <div class="d-flex flex-column">
             <label asp-for="Year">Year</label>
-            <input type="number" asp-for="Year" min="1900" max="2025" required />
+            <input type="number" asp-for="Year" min="1888" max="2025" required />
         </div>
         <!--directory-->
         <div class="d-flex flex-column">
@@ -39,24 +49,34 @@
         </div>
         <!--edited-->
         <div class="d-flex flex-column">
-            <label asp-for="Edited">Edited</label>
+            <label asp-for="Edited">Edited?</label>
             <select asp-for="Edited">
-                <option value="true">Yes</option>
-                <option value="false">No</option>
+                <option value="1">Yes</option>
+                <option value="0">No</option>
             </select>
         </div>
         <!--Lent to-->
         <div class="d-flex flex-column">
-            <label asp-for="Lent">Lent to</label>
-            <input type="text" asp-for="Lent" />
+            <label asp-for="LentTo">Lent to</label>
+            <input type="text" asp-for="LentTo" />
         </div>
         <!--notes-->
         <div class="d-flex flex-column">
             <label asp-for="Notes">Notes</label>
             <input type="text" asp-for="Notes" maxlength="25" />
         </div>
+        <!--Copied to Plex-->
+        <div class="d-flex flex-column">
+            <label asp-for="CopiedToPlex">Copied To Plex?</label>
+            <select asp-for="CopiedToPlex">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
         <!--submit button-->
-        <button type="submit" class="btn btn-primary">Add Movie</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+
+    <div asp-validation-summary="All"></div>
 </div>
 </>
