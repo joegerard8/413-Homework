@@ -24,10 +24,13 @@ const { teams } = CollegeBasketballData;
 // a simple header component that only returns basic html
 function Header() {
   return (
-    <>
-      <h1>Welcome to the College Basketball Team List</h1>
-      <p>Here you can find all of the teams in men's D1 Basketball. Go Zags!</p>
-    </>
+    <header className="header-container">
+      <h1 className="header-title">College Basketball Team List</h1>
+      <p className="header-subtitle">
+        Explore all men's Division 1 basketball teams.{" "}
+        <span className="">Go Zags!</span>
+      </p>
+    </header>
   );
 }
 
