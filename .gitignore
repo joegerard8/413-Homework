@@ -361,3 +361,18 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Ignore Backend build and debug files
+Mission10/Backend/bin/
+Mission10/Backend/obj/
+Mission10/Backend/Properties/launchSettings.json
+
+# Ignore Frontend dependencies and build artifacts
+Mission10/Frontend/node_modules/
+Mission10/Frontend/dist/
+Mission10/Frontend/.vite/
+Mission10/Frontend/tsconfig.tsbuildinfo
+
+# Ignore system-generated files
+.DS_Store
+Thumbs.db
