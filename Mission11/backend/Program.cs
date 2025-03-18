@@ -12,7 +12,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddCors();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .AllowCredentials() // allowing cookies to be passed
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+    
+}
+);
 
 var app = builder.Build();
 
@@ -23,7 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(x => x.WithOrigins("http://localhost:5173"));
+app.UseCors("AllowFrontend"); // using the allow frontend policy that we created above
 
 app.UseHttpsRedirection();
 
