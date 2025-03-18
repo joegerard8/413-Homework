@@ -1,0 +1,44 @@
+#bookCard {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px; /* Adjust based on your preference */
+    padding: 15px;
+    margin: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+#bookCard:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+
+#bookCard h1 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+
+#bookCard h2 {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+    text-align: center;
+}
+
+#bookCard p {
+    font-size: 12px;
+    color: #777;
+    text-align: center;
+    margin: 5px 0;
+}
+
+#bookCard .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-top: 15px;
+    text-align: center;
+}
