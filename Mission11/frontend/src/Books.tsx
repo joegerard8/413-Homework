@@ -1,3 +1,4 @@
+// importing react hooks, book type, and the book styling
 import { useState, useEffect } from 'react';
 import { Book } from './types/Book';
 import './Books.css';
@@ -9,6 +10,7 @@ function Books() {
     const [page, setPage] = useState<number>(1);
     const [numPages, setNumPages] = useState<number>(1);
 
+    // use effect to get the books from the backend api. 
     useEffect(() => {
         const fetchBooks = async () => {
             const response = await fetch(`https://localhost:7172/api/Books/SomeBooks?pageSize=${pageSize}&page=${page}`, {credentials: 'include'}); // getting the response and passing query parameters
@@ -61,7 +63,7 @@ function Books() {
                     Previous
                 </button>
                 
-                {/* Page Buttons */}
+                {/* Page number Buttons */}
                 {[...Array(numPages)].map((_, index) => (
                     <button 
                         key={index + 1} 
@@ -73,6 +75,7 @@ function Books() {
                     </button>
                 ))}
                 
+                {/**Next page button, blocked out if the page is = to the total number of pages.  */}
                 <button 
                     className="btn btn-outline-primary ms-2" 
                     onClick={() => setPage(page + 1)} 
@@ -91,6 +94,7 @@ function Books() {
                     onChange={(p) => {setPageSize(Number(p.target.value));
                         setPage(1);}}
                 >
+                    {/**Different potential values, 5, 10, or 20 results per page. */}
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="20">20</option>

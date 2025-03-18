@@ -1,3 +1,4 @@
+// book interface, essentially just an object, defining all the keys and their data types
 export interface Book {
     bookId: number,
     title: string,

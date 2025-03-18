@@ -1,3 +1,4 @@
+/** additional styling that is used on top of boot strap */
 .hover-scale {
 transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
