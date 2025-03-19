@@ -5,7 +5,7 @@ export interface Book {
     author: string,
     publisher: string,
     isbn: string,
-    classificiation: string, 
+    classification: string, 
     category: string,
     pageCount: number, 
     price: number,

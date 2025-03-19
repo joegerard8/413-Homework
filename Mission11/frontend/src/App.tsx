@@ -5,7 +5,7 @@ import Fingerprint from './Fingerprint.tsx';
 function App() {
 
   return (
-    <>
+    <div className="">
     {/**Book component, cookie component at the bottom, as well as the unique fingerprint hash which is printed at the bottom */}
       <Books></Books>
       <CookieConsent
@@ -32,7 +32,7 @@ function App() {
       <Fingerprint/>
 
 
-    </>
+    </div>
   )
 }
 
