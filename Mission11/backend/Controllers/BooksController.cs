@@ -16,8 +16,10 @@ namespace backend.Controllers
         {
             _dbContext = temp;
         }
+
         [HttpGet("SomeBooks")]
-        public IActionResult GetBooks(int pageSize = 5, int page = 1)
+        // setting the parameters, as well as their default values if nothing is passed. 
+        public IActionResult GetBooks(int pageSize = 5, int page = 1, int sorted = 1)
         {
             // logging the cookie for 414
             string? favoriteBook = Request.Cookies["BookType"];
@@ -32,11 +34,28 @@ namespace backend.Controllers
                 Expires = DateTime.Now.AddMinutes(1)
             });
 
-            var books = _dbContext.Books
-                .Skip(pageSize * (page - 1))
-                .Take(pageSize)
-                .ToList();
+            // delcaring the list variable
+            List<Book> books = new List<Book>(); // Initialize with an empty list
 
+            // if they want to sort it, this will sort the books
+            if (sorted == 1)
+            {
+                books = _dbContext.Books
+                    .OrderBy(b => b.Title) // sorting by title alphabetically
+                    .Skip(pageSize * (page - 1))
+                    .Take(pageSize)
+                    .ToList();
+            }
+            // if not, it won't sort.
+            else if (sorted == 0)
+            {
+                books = _dbContext.Books
+                    .Skip(pageSize * (page - 1))
+                    .Take(pageSize)
+                    .ToList();
+            }
+
+            // Always set books to prevent uninitialized usage
             var totalCount = _dbContext.Books.Count();
 
             var response = new
@@ -45,11 +64,13 @@ namespace backend.Controllers
                 Count = totalCount
             };
 
+
             return Ok(response);
         }
 
 
         [HttpGet("AllBooks")]
+        // getting all the books with no filters or anything
         public IEnumerable<Book> Get()
         {
 
