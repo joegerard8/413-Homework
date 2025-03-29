@@ -11,6 +11,7 @@ interface BookProps {
 const Book = ({ book, onAddToCart, quantity, setQuantity }: BookProps) => {
   return (
     // the different parts of the object are displayed here and bootstrap classes are makinbg it look nice
+    // bootstrap grid being used
     <div className="col-lg-6 col-md-8 col-sm-10 mb-4 d-flex justify-content-center">
       <div className="card shadow-sm hover-scale w-100" style={{ maxWidth: '500px' }}>
         <div className="card-body">
