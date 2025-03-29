@@ -1,39 +1,28 @@
-import Books from './Books.tsx';
-import CookieConsent from 'react-cookie-consent';
-import Fingerprint from './Fingerprint.tsx';
-
+import BookPage from './pages/BookPage.tsx';
+import Cart from './pages/CartPage.tsx';
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext.tsx';
+import CartSummary from './components/CartSummary.tsx';
+import './App.css';
+// app function, has routing and all the necessary components like the CartProvider and Cart summary so that they are on every page
 function App() {
 
   return (
-    <div className="">
-    {/**Book component, cookie component at the bottom, as well as the unique fingerprint hash which is printed at the bottom */}
-      <Books></Books>
-      <CookieConsent
-        location="bottom"
-        buttonText="Accept"
-        cookieName="Cookies"
-        style={{
-          background: "white",
-          color: "black",
-          border: "2px solid black",
-          fontWeight: "bold",
-          textAlign: "center",
-        }}
-        buttonStyle={{
-          background: "blue",
-          color: "white",
-          borderRadius: "5px",
-          fontWeight: "bold",
-        }}
-        expires={150}
-      >
-        This site uses cookies to enhance user experience.
-      </CookieConsent>
-      <Fingerprint/>
-
-
+    <div className="container">
+      <div className="row">
+        <CartProvider>
+          <Router>
+            <CartSummary />
+            {/**The routes, only 2 routes right now but we can add more. */}
+            <Routes>
+              <Route path='/' element={<BookPage/>} />
+              <Route path='/cart' element={<Cart/>} />
+            </Routes>
+          </Router>
+        </CartProvider>
+      </div>
     </div>
   )
 }
 
-export default App
+export default App;
