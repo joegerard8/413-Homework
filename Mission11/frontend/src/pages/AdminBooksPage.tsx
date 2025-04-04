@@ -1,3 +1,5 @@
+// admin book page, displays a table and gives the user options for CRUD
+
 import { useState, useEffect } from 'react';
 import { Book as BookType } from '../types/Book';
 import { fetchBooks, deleteBook, addBook, updateBook } from '../api/BooksAPI.ts';
@@ -6,17 +8,23 @@ import NewBookForm from '../components/NewBookForm.tsx'; // Importing the NewBoo
 import EditBookForm from '../components/EditBookForm.tsx'; // Importing the EditBookForm component to edit existing books
 
 const AdminBooksPage = () => {
+    // states to manage the books, error messages, loading state, pagination, and form visibility
     const [books, setBooks] = useState<BookType[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
+    // more states for pagination
     const [pageSize, setPageSize] = useState<number>(5);
     const [page, setPage] = useState<number>(1);
     const [numPages, setNumPages] = useState<number>(1);
 
+    // more states for managing the visibility of the form for adding/editing books
     const [showForm, setShowForm] = useState(false); // detects the type, no need to declare boolean
     const [editingBook, setEditingBook] = useState<BookType | null>(null); // state to keep track of the book being edited
     
+    // too many states? not unless there are 50
+
+    // function to handle deleting a book, calls the deletebook api and updates the state
     const deleteBookHandler = async (bookId: number) => {
         try {
             setLoading(true);
@@ -30,21 +38,7 @@ const AdminBooksPage = () => {
         }
     };
 
-    const handleEditBook = async (book: BookType) => {
-        try {
-            setLoading(true);
-            await updateBook(book); // Update the book in the database
-            setBooks(books.map(b => b.bookId === book.bookId ? book : b)); // Update the state with the edited book
-        }
-        catch (error) {
-            setError((error as Error).message);
-            console.error('Error updating book:', error);
-        }
-        finally {
-            setLoading(false);
-        }
-    };
-
+    // function to load the books, originally was in the use effect but separated for reusability
     const loadBooks = async () => {
         try {
             setLoading(true);
@@ -60,10 +54,12 @@ const AdminBooksPage = () => {
         }
     };
 
+    // the good ole use effect, this will run when the component mounts and whenever page, pageSize, or numPages changes
     useEffect(() => {
         loadBooks();
     }, [page, pageSize, numPages]); // use effect dependencies, will run when any of these variables is updated
 
+    // if the page is loading or error it shows this instead
     if (loading) return <p>Loading projects...</p>
     if (error) return <p className="text-red-500">Error: {error}</p>; // Display error message in red
     

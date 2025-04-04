@@ -1,3 +1,6 @@
+// brand new pagination component, NEAT
+
+// the interface for the props that will be passed to this component
 interface PaginationProps {
     currentPage: number;
     totalPage: number;
@@ -21,6 +24,7 @@ const Pagination = ({ currentPage, totalPage, pageSize, onPageChange, onPageSize
             Previous
             </button>
 
+            {/**handles the in between buttons that have their page number on them */}
             {[...Array(totalPage)].map((_, index) => (
             <button
                 key={index + 1}
@@ -32,6 +36,8 @@ const Pagination = ({ currentPage, totalPage, pageSize, onPageChange, onPageSize
             </button>
             ))}
 
+    
+                {/* Next button to go to the next page */}  
             <button
             className="btn btn-outline-primary ms-2"
             onClick={() => onPageChange(currentPage + 1)}
@@ -41,6 +47,8 @@ const Pagination = ({ currentPage, totalPage, pageSize, onPageChange, onPageSize
             </button>
         </div>
 
+    
+            {/* Results per page dropdown */}
         <div className="d-flex align-items-center">
             <div className="me-3">
             <label className="form-label">Results per page:</label>

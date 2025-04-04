@@ -7,6 +7,7 @@ interface FetchBooksResponse {
 
 const url = 'https://localhost:7172/api/Books/'; // base URL for the API, change it to your API endpoint
 
+// function to fetch books from the API, it takes pageSize, page, sorted and selectedCategories as parameters
 export const fetchBooks = async (
     pageSize: number,
     page: number,
@@ -40,7 +41,7 @@ export const fetchBooks = async (
 export const addBook = async (book: Book): Promise<Book> => {
     
     try {
-        const response = await fetch(`${url}AddBook`, {
+        const response = await fetch(`${url}AddBook`, { // endpoint for adding a book
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ export const addBook = async (book: Book): Promise<Book> => {
 
 export const updateBook = async (book: Book): Promise<Book> => {
     try {
-        const response = await fetch(`${url}UpdateBook/${book.bookId}`, {
+        const response = await fetch(`${url}UpdateBook/${book.bookId}`, {   // endpoint for updating a book
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +86,7 @@ export const updateBook = async (book: Book): Promise<Book> => {
 // function to delete a book, calls the api and takes a bookid as a parameter then deletes that joint
 export const deleteBook = async (bookId: number): Promise<void> => {
     try {
-        const response = await fetch(`${url}DeleteBook/${bookId}`, {
+        const response = await fetch(`${url}DeleteBook/${bookId}`, { // endpoint for deleting a book
             method: 'DELETE',
             credentials: 'include' // include cookies for authentication
         });
