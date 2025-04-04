@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// adding logging
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -44,4 +47,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run("https://localhost:7172");
+app.Run();
