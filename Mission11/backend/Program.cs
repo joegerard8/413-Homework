@@ -12,12 +12,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// enable cors for the frontend, allows any header and any method from the specified origin
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173")
+            policy.AllowAnyOrigin() // allows any origin
                 .AllowCredentials() // allowing cookies to be passed
                 .AllowAnyHeader()
                 .AllowAnyMethod();
@@ -43,4 +44,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run("https://localhost:7172");

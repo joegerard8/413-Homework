@@ -87,5 +87,67 @@ namespace backend.Controllers
             var categories = _dbContext.Books.Select(b => b.Category).Distinct().ToList(); // selecting just book categories and making them distinct
             return Ok(categories); // returning the 200 and the cateogires
         }
+
+        [HttpPost("AddBook")]
+        // creating a new book. 
+        public IActionResult AddBook([FromBody] Book newBook)
+        {
+            if (newBook == null)
+            {
+                return BadRequest("Book data is null.");
+            }
+
+            // Add the new book to the database
+            _dbContext.Books.Add(newBook);
+            _dbContext.SaveChanges(); // Save changes to the database
+
+            return CreatedAtAction(nameof(Get), new { id = newBook.BookId }, newBook); // Return 201 Created with the new book details
+        } // end of AddBook method
+
+        // method to updated a current book
+        [HttpPut("UpdateBook/{BookId}")]
+        public IActionResult UpdateBook(int BookId, [FromBody] Book updatedBook)
+        {
+            if (updatedBook == null || updatedBook.BookId != BookId)
+            {
+                return BadRequest("Book data is null or BookId mismatch.");
+            }
+
+            var existingBook = _dbContext.Books.Find(BookId);
+            if (existingBook == null)
+            {
+                return NotFound("Book not found.");
+            }
+
+            // Update the existing book's properties
+            existingBook.Title = updatedBook.Title;
+            existingBook.Author = updatedBook.Author;
+            existingBook.Publisher = updatedBook.Publisher;
+            existingBook.Isbn = updatedBook.Isbn;
+            existingBook.Classification = updatedBook.Classification;
+            existingBook.Category = updatedBook.Category;
+            existingBook.PageCount = updatedBook.PageCount;
+            existingBook.Price = updatedBook.Price;
+
+            _dbContext.Books.Update(existingBook); // Mark the existing book as modified
+            _dbContext.SaveChanges(); // Save changes to the database
+
+            return Ok(existingBook); // Return 204 No Content
+        }
+
+        [HttpDelete("DeleteBook/{BookId}")] // route to delete a book. 
+        public IActionResult DeleteBook(int BookId)
+        {
+            var book = _dbContext.Books.Find(BookId);
+            if (book == null)
+            {
+                return NotFound("Book not found.");
+            }
+
+            _dbContext.Books.Remove(book); // Remove the book from the DbSet
+            _dbContext.SaveChanges(); // Save changes to the database
+
+            return NoContent(); // Return 204 No Content
+        }
     }
 }

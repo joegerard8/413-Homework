@@ -47,6 +47,7 @@ function CategoryFilter({ selectedCategories, setSelectedCategories }: CategoryF
                             id={category}
                             value={category}
                             onChange={handleCategoryChange}
+                            checked={selectedCategories.includes(category)} // checks if the category is selected
                         />
                         <label className="form-check-label" htmlFor={category}>{category}</label>
                     </div>

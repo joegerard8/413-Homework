@@ -5,9 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { CartItem } from '../types/CartItem';
 import Books from '../components/Books.tsx';
-import CookieConsent from 'react-cookie-consent';
+import CookieConsent from 'react-cookie-consent'; 
 import Fingerprint from '../components/Fingerprint.tsx';
+import { fetchBooks } from '../api/BooksAPI.ts';
 import CategoryFilter from '../components/CategoryFilter.tsx';
+import Pagination from '../components/pagination.tsx'; // Importing Pagination component for future use
 
 // taking selected categories as a parameter to the BookPage component.
 // this is to make the api call to get the books based on the selected categories.
@@ -19,6 +21,9 @@ function BookPage() {
   const [numPages, setNumPages] = useState<number>(1);
   const [sorted, setSorted] = useState<number>(1);
   const [quantities, setQuantities] = useState<{ [bookId: number]: number }>({});
+
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // setting the quantity for the book, this is used to set the quantity of the book when it is added to the cart
   const setQuantity = (bookId: number, value: number) => {
@@ -49,37 +54,31 @@ function BookPage() {
   };
 
   useEffect(() => {
-    const fetchBooks = async () => {
-        try {
-            // Mapping out the selected categories, adds each selected one and puts an & between them so the backend can read them
-            const categoryParams = selectedCategories
-                .map((category) => `categories=${encodeURIComponent(category)}`)
-                .join('&');
-
-            console.log(categoryParams); // logging the category params to see if they are being created correctly
-            // making the api call, pasing the parameters, and also dynamically creating the selected categories parameters based on what is in the selectedcaregories state
-            const response = await fetch(
-                `https://localhost:7172/api/Books/SomeBooks?pageSize=${pageSize}&page=${page}&sorted=${sorted}${
-                    selectedCategories.length > 0 ? `&${categoryParams}` : ''
-                }`,
-                { credentials: 'include' }
-            );
-            // some simple error handling, throws an error if we don't get a 200 response from the server
-            if (!response.ok) {
-                throw new Error(`Error fetching books: ${response.statusText}`);
-            }
-
-            const data = await response.json(); // converting data to json to be used
-            setBooks(data.books); // setting the book state
-            const numberOfPages = Math.ceil(data.count / pageSize); // getting number of pages
-            setNumPages(numberOfPages); // setting number of pages
-        } catch (error) {
-            console.error('Error fetching books:', error);
-        }
+    const loadBooks = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchBooks(pageSize, page, sorted, selectedCategories); // uses the fetchbooks method we created in the api
+        setBooks(data.books); // setting the book state
+        const numberOfPages = Math.ceil(data.count / pageSize); // getting number of pages
+        setNumPages(numberOfPages); // setting number of pages
+      } catch (error) {
+        setError((error as Error).message);
+        console.error('Error fetching books:', error);
+      } finally { // executes no matter what, even if there is an error
+        setLoading(false);
+      }
     };
-
-    fetchBooks();
+    loadBooks();
 }, [pageSize, page, sorted, selectedCategories]); // use effect dependencies, will run when any of these variables is updated
+
+  // different return statements to manage the different potential states
+  if (loading) { //shows that we are loading
+    return <p>Loading...</p>
+  }
+
+  if (error) { // shows that there was an error
+    return <p className="text-danger">{error}</p>;
+  }
 
   return (
     <div className="container mt-4">
@@ -108,54 +107,17 @@ function BookPage() {
 
           {/* Pagination and Sorting */}
           <div className="d-flex flex-column justify-content-center align-items-center p-3 bg-light rounded shadow-sm mt-4">
-            {/**Pagination container class we haven't used either, makes page things look nice. */}
-            <div className="pagination-container d-flex align-items-center mb-3">
-              <button
-                className="btn btn-outline-primary me-2"
-                onClick={() => setPage(page - 1)}
-                disabled={page === 1}
-              >
-                Previous
-              </button>
-
-              {[...Array(numPages)].map((_, index) => (
-                <button
-                  key={index + 1}
-                  className={`btn ${page === index + 1 ? 'btn-primary' : 'btn-outline-primary'} me-2`}
-                  onClick={() => setPage(index + 1)}
-                  disabled={page === index + 1}
-                >
-                  {index + 1}
-                </button>
-              ))}
-{/**we haven't ever styled with a button outline, so I added that here */}
-              <button
-                className="btn btn-outline-primary ms-2"
-                onClick={() => setPage(page + 1)}
-                disabled={page === numPages}
-              >
-                Next
-              </button>
-            </div>
-
-            <div className="mt-3 d-flex justify-content-between align-items-center w-100">
-              <div className="me-3">
-                {/**uses form label for the label to align with the bootstrap styling*/}
-                <label className="form-label">Results per page:</label>
-                <select
-                  className="form-select w-auto"
-                  value={pageSize}
-                  onChange={(e) => {
-                    setPageSize(Number(e.target.value));
-                    setPage(1);
-                  }}
-                >
-                  <option value="5">5</option>
-                  <option value="10">10</option>
-                  <option value="20">20</option>
-                </select>
-              </div>
-
+            <Pagination
+              currentPage={page}
+              totalPage={numPages}
+              pageSize={pageSize}
+              onPageChange={(newPage: number) => setPage(newPage)}
+              onPageSizeChange={(newSize: number) => {
+                setPageSize(newSize);
+                setPage(1); // Reset to page 1 on page size change
+              }}
+            ></Pagination>
+            <div className="mb-3">
               <div>
                 <label className="form-label">Sort books alphabetically:</label>
                 <select

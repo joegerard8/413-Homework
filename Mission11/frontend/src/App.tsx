@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext.tsx';
 import CartSummary from './components/CartSummary.tsx';
 import './App.css';
+import AdminBooksPage from './pages/AdminBooksPage.tsx';
 // app function, has routing and all the necessary components like the CartProvider and Cart summary so that they are on every page
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path='/' element={<BookPage/>} />
               <Route path='/cart' element={<Cart/>} />
+              <Route path='/admin/books' element={<AdminBooksPage />} />
             </Routes>
           </Router>
         </CartProvider>
