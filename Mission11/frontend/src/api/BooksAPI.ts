@@ -5,7 +5,7 @@ interface FetchBooksResponse {
     count: number; 
 }
 
-const url = 'https://localhost:7172/api/Books/'; // base URL for the API, change it to your API endpoint
+const url = 'https://finalbookapp-f7euawauenaph6c3.eastus-01.azurewebsites.net/api/Books/'; // base URL for the API, change it to your API endpoint
 
 // function to fetch books from the API, it takes pageSize, page, sorted and selectedCategories as parameters
 export const fetchBooks = async (
